@@ -28,31 +28,33 @@ class CharacterListFragment : Fragment(){
         container: ViewGroup?,
         savedState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_character_first, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val recyclerView = requireActivity().findViewById<RecyclerView>(R.id.characterRecyclerView)
+        val rootView= inflater.inflate(R.layout.fragment_character_first, container, false)
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.characterRecyclerView)
 //        val adapter = CharacterListAdapter { character ->
 //
 //        }
-      //  recyclerView.adapter = adapter
-
+        //  recyclerView.adapter = adapter
+        adapter = CharacterListAdapter(openDetails = ::openDetails)
         recyclerView.layoutManager=LinearLayoutManager(context)
+        recyclerView.adapter = adapter
         characterListViewModel.characterLivedata.observe(viewLifecycleOwner, { characters ->
-            adapter = CharacterListAdapter(openDetails = ::openDetails)
             adapter.setCharacterList(characters)
-            recyclerView.adapter = adapter
         })
-
-        val refreshLayout =  requireActivity().findViewById<SwipeRefreshLayout>(R.id.refresh_layout)
+        characterListViewModel.refreshDataFromRepository()
+        /*val refreshLayout =  requireActivity().findViewById<SwipeRefreshLayout>(R.id.refresh_layout)
         refreshLayout.setOnRefreshListener {
             characterListViewModel.refreshDataFromRepository()
             Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
             refreshLayout.isRefreshing = false
         }
+*/
+        return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
     }
 
     private fun openDetails(bbCharacter: BBCharacter) {

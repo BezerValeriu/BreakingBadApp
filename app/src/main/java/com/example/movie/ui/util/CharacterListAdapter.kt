@@ -31,20 +31,21 @@ class CharacterListAdapter (private val list:MutableList<BBCharacter> = mutableL
     fun setCharacterList(newList: List<BBCharacter>) {
         list.clear()
         list.addAll(newList)
+        notifyDataSetChanged()
     }
     inner class CharacterViewModelHolder(private val binding:CharacterItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(bbCharacter: BBCharacter){
-          /*  Glide.with(binding.imageView).load(bbCharacter.img).into(binding.imageView)
-            binding.NametextView. text = bbCharacter.name
-            binding.NickanameTextview. text = bbCharacter.nickname
-            binding.textView6.text = bbCharacter.status
+          Glide.with(binding.userImage).load(bbCharacter.img).into(binding.userImage)
+            binding.userName.text = bbCharacter.name
+            binding.userNickName.text = bbCharacter.nickname
+            binding.userStatus.text = bbCharacter.status
 
-            binding.occupationTextView. text = bbCharacter.birthday.toString()
+            binding.userOccupation.text = bbCharacter.birthday.toString()
 //            Glide.with(binding.ivListimageView).load(pokemonDb.image).into(binding.ivListimageView)
 //            binding.tvPokeName.text= pokemonDb.name
             binding.root.setOnClickListener{
                 openDetails(bbCharacter)
-            }*/
+            }
         }
     }
 
